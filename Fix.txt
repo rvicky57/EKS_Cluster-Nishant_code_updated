@@ -1,0 +1,64 @@
+Initially, I received an unsupported block type error. 
+In vpc.tf, I updated the terraform-aws-modules/vpc/aws module from version 5.16.0 to 5.20.0. 
+In versions.tf, I removed the random provider argument and updated the AWS provider version from 3.68.0 to 5.82.0."
+While executing commission.sh to automate Terraform, I observed that the script was looking for a .tfvars file that wasn't included in the configuration,
+and so I deployed the EKS cluster manually, and the updated code is working fine now
+
+
+error before changes:
+Warning: Deprecated attribute
+Γöé
+Γöé   on .terraform\modules\vpc\vpc-flow-logs.tf line 28, in locals:
+Γöé   28:     "arn:${data.aws_partition.current[0].partition}:logs:${data.aws_region.current[0].name}:${data.aws_caller_identity.current[0].account_id}:log-group:${log_group.name}:*"
+Γöé
+Γöé The attribute "name" is deprecated. Refer to the provider documentation for
+Γöé details.
+Γöé
+Γöé (and one more similar warning elsewhere)
+Γò╡
+Γò╖
+Γöé Error: Unsupported block type
+Γöé
+Γöé   on .terraform\modules\eks\modules\eks-managed-node-group\main.tf line 140, in resource "aws_launch_template" "this":
+Γöé  140:   dynamic "elastic_gpu_specifications" {
+Γöé
+Γöé Blocks of type "elastic_gpu_specifications" are not expected here.
+Γò╡
+Γò╖
+Γöé Error: Unsupported block type
+Γöé
+Γöé   on .terraform\modules\eks\modules\eks-managed-node-group\main.tf line 148, in resource "aws_launch_template" "this":
+Γöé  148:   dynamic "elastic_inference_accelerator" {
+Γöé
+Γöé Blocks of type "elastic_inference_accelerator" are not expected here.
+Γò╡
+Γò╖
+Γöé Error: Unsupported block type
+Γöé
+Γöé   on .terraform\modules\eks\modules\self-managed-node-group\main.tf line 197, in resource "aws_launch_template" "this":
+Γöé  197:   dynamic "elastic_gpu_specifications" {
+Γöé
+Γöé Blocks of type "elastic_gpu_specifications" are not expected here.
+Γò╡
+Γò╖
+Γöé Error: Unsupported block type
+Γöé
+Γöé   on .terraform\modules\eks\modules\self-managed-node-group\main.tf line 205, in resource "aws_launch_template" "this":
+Γöé  205:   dynamic "elastic_inference_accelerator" {
+Γöé
+Γöé Blocks of type "elastic_inference_accelerator" are not expected here.
+
+
+automated shell "commission.sh" script error :
+
+Validating Terraform configuration...
+Success! The configuration is valid.
+
+Creating Terraform plan...
+╷
+│ Error: Failed to read variables file
+│
+│ Given variables file terraform.tfvars does not exist.
+╵
+Terraform plan creation failed!
+
